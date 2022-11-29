@@ -391,7 +391,7 @@
       "idf": "",
       "netlist": "startrckr_pcb.net",
       "specctra_dsn": "",
-      "step": "",
+      "step": "startrckr_pcb.step",
       "vrml": ""
     },
     "page_layout_descr_file": ""
