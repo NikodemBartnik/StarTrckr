@@ -17,9 +17,9 @@ A_STEPS_PER_DEGREE = 35
 B_STEPS_PER_DEGREE = 35
 C_STEPS_PER_DEGREE = 35
 
-a_pos = 0
-b_pos = 0
-c_pos = 0
+pos_a = 0
+pos_b = 0
+pos_c = 0
 
 def buzzerSound():
     buzzer.duty_u16(30000)
@@ -44,23 +44,27 @@ def comm():
     time.sleep(1)
     
     
-def readCommand():
+def readCommand(m1, m2, m3):
+    global pos_a, pos_b, pos_c
     cm_list = sys.stdin.readline().strip().split(' ')
     print(cm_list)
     if cm_list[0] != '':
+        targets = [pos_a, pos_b, pos_c]
         if len(cm_list) >= 1:
             if cm_list[0][0] == 'A':
                 print('Moving A axis by: ', int(cm_list[0][1:]), ' deg\n')
-                moveTo(0, int(cm_list[0][1:]))
+                targets[0] = int(cm_list[0][1:])
                 
         if len(cm_list) >= 2:
             if cm_list[1][0] == 'B':
                 print('Moving B axis by: ', int(cm_list[1][1:]), ' deg\n')
-                moveTo(1, int(cm_list[1][1:]))
+                targets[1] = int(cm_list[1][1:])
         if len(cm_list) >= 3:
             if cm_list[2][0] == 'C':
                 print('Moving C axis by: ', int(cm_list[2][1:]), ' deg\n')
-                moveTo(2, int(cm_list[2][1:]))
+                targets[2] = int(cm_list[2][1:])
+                
+        bresenham3D(targets[0] * A_STEPS_PER_DEGREE, targets[1] * B_STEPS_PER_DEGREE, targets[2] * C_STEPS_PER_DEGREE, m1, m2, m3)
         
         
 def moveTo(axis, degrees):
@@ -85,25 +89,93 @@ def moveTo(axis, degrees):
             time.sleep(0.002)
         c_pos = degrees
         
-def bresenham3D(curr_a, curr_b, curr_c, dest_a, dest_b, dest_c):
-    da = abs(dest_a - curr_a)
-    db = abs(dest_b - curr_b)
-    dc = abs(dest_c - curr_c)
+        
+def bresenham3D(dest_a, dest_b, dest_c, ma, mb, mc):
+    global pos_a, pos_b, pos_c
+    da = abs(dest_a - pos_a)
+    db = abs(dest_b - pos_b)
+    dc = abs(dest_c - pos_c)
     
-    dir_a = 1 if dest_a > curr_a else -1
-    dir_b = 1 if dest_b > curr_b else -1
-    dir_c = 1 if dest_c > curr_c else -1
+    print('da: ', da, 'db: ', db, 'dc: ', dc)
+    
+    dir_a = 1 if dest_a > pos_a else -1
+    dir_b = 1 if dest_b > pos_b else -1
+    dir_c = 1 if dest_c > pos_c else -1
+    
+    temp_a = 0
+    temp_b = 0
+    temp_c = 0
     
     if da >= db and da >= dc:
-        pass
+        step_b = db / da
+        step_c = dc / da
+
+        for x in range(da):
+            pos_a = pos_a + dir_a
+            ma.step(dir_a)
+            temp_b = temp_b + step_b
+            temp_c = temp_c + step_c
+            
+            if temp_b >= 1:
+                temp_b = temp_b - 1
+                pos_b = pos_b + dir_b
+                mb.step(dir_b)
+
+            if temp_c >= 1:
+                temp_c = temp_c - 1
+                pos_c = pos_c + dir_c
+                mc.step(dir_c)
+            time.sleep(0.005)
+            #print(pos_a, pos_b, pos_c)
+            
     elif db >= da and db >= dc:
-        pass
+        step_a = da / db
+        step_c = dc / db
+
+        for x in range(db):
+            pos_b = pos_b + dir_b
+            mb.step(dir_b)
+            temp_a = temp_a + step_a
+            temp_c = temp_c + step_c
+            
+            if temp_a >= 1:
+                temp_a = temp_a - 1
+                pos_a = pos_a + dir_a
+                ma.step(dir_a)
+
+            if temp_c >= 1:
+                temp_c = temp_c - 1
+                pos_c = pos_c + dir_c
+                mc.step(dir_c)
+            time.sleep(0.005)
+            #print(pos_a, pos_b, pos_c)
+
     elif dc >= da and dc >= db:
-        pass
+        step_a = da / dc
+        step_b = db / dc
+
+        for x in range(dc):
+            pos_c = pos_c + dir_c
+            mc.step(dir_c)
+            temp_a = temp_a + step_a
+            temp_b = temp_b + step_b
+            
+            if temp_a >= 1:
+                temp_a = temp_a - 1
+                pos_a = pos_a + dir_a
+                ma.step(dir_a)
+
+            if temp_b >= 1:
+                temp_b = temp_b - 1
+                pos_b = pos_b + dir_b
+                mb.step(dir_b)
+            time.sleep(0.005)
+            #print(pos_a, pos_b, pos_c)
+
+
     
 
 
-#temp_dir = 1
 m1.enable()
 m2.enable()
 m3.enable()
@@ -120,7 +192,7 @@ m3.enable()
 #m2.disable()
 #m3.disable()
 while(1):
-    readCommand()
+    readCommand(m1, m2, m3)
         
     
 
