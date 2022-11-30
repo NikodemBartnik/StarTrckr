@@ -101,76 +101,77 @@ def bresenham3D(dest_a, dest_b, dest_c, ma, mb, mc):
     dir_a = 1 if dest_a > pos_a else -1
     dir_b = 1 if dest_b > pos_b else -1
     dir_c = 1 if dest_c > pos_c else -1
+    print('dira: ', dir_a, ' dirb: ', dir_b, ' dirc: ', dir_c)
     
     temp_a = 0
     temp_b = 0
     temp_c = 0
-    
-    if da >= db and da >= dc:
-        step_b = db / da
-        step_c = dc / da
+    if not (da == 0 and db == 0 and dc == 0):
+        if da >= db and da >= dc:
+            step_b = db / da
+            step_c = dc / da
 
-        for x in range(da):
-            pos_a = pos_a + dir_a
-            ma.step(dir_a)
-            temp_b = temp_b + step_b
-            temp_c = temp_c + step_c
-            
-            if temp_b >= 1:
-                temp_b = temp_b - 1
-                pos_b = pos_b + dir_b
-                mb.step(dir_b)
-
-            if temp_c >= 1:
-                temp_c = temp_c - 1
-                pos_c = pos_c + dir_c
-                mc.step(dir_c)
-            time.sleep(0.005)
-            #print(pos_a, pos_b, pos_c)
-            
-    elif db >= da and db >= dc:
-        step_a = da / db
-        step_c = dc / db
-
-        for x in range(db):
-            pos_b = pos_b + dir_b
-            mb.step(dir_b)
-            temp_a = temp_a + step_a
-            temp_c = temp_c + step_c
-            
-            if temp_a >= 1:
-                temp_a = temp_a - 1
+            for x in range(da):
                 pos_a = pos_a + dir_a
                 ma.step(dir_a)
+                temp_b = temp_b + step_b
+                temp_c = temp_c + step_c
+                
+                if temp_b >= 1:
+                    temp_b = temp_b - 1
+                    pos_b = pos_b + dir_b
+                    mb.step(dir_b)
 
-            if temp_c >= 1:
-                temp_c = temp_c - 1
-                pos_c = pos_c + dir_c
-                mc.step(dir_c)
-            time.sleep(0.005)
-            #print(pos_a, pos_b, pos_c)
+                if temp_c >= 1:
+                    temp_c = temp_c - 1
+                    pos_c = pos_c + dir_c
+                    mc.step(dir_c)
+                time.sleep(0.005)
+                print(pos_a, pos_b, pos_c)
+                
+        elif db >= da and db >= dc:
+            step_a = da / db
+            step_c = dc / db
 
-    elif dc >= da and dc >= db:
-        step_a = da / dc
-        step_b = db / dc
-
-        for x in range(dc):
-            pos_c = pos_c + dir_c
-            mc.step(dir_c)
-            temp_a = temp_a + step_a
-            temp_b = temp_b + step_b
-            
-            if temp_a >= 1:
-                temp_a = temp_a - 1
-                pos_a = pos_a + dir_a
-                ma.step(dir_a)
-
-            if temp_b >= 1:
-                temp_b = temp_b - 1
+            for x in range(db):
                 pos_b = pos_b + dir_b
                 mb.step(dir_b)
-            time.sleep(0.005)
-            #print(pos_a, pos_b, pos_c)
+                temp_a = temp_a + step_a
+                temp_c = temp_c + step_c
+                
+                if temp_a >= 1:
+                    temp_a = temp_a - 1
+                    pos_a = pos_a + dir_a
+                    ma.step(dir_a)
+
+                if temp_c >= 1:
+                    temp_c = temp_c - 1
+                    pos_c = pos_c + dir_c
+                    mc.step(dir_c)
+                time.sleep(0.005)
+                print(pos_a, pos_b, pos_c)
+
+        elif dc >= da and dc >= db:
+            step_a = da / dc
+            step_b = db / dc
+
+            for x in range(dc):
+                pos_c = pos_c + dir_c
+                mc.step(dir_c)
+                temp_a = temp_a + step_a
+                temp_b = temp_b + step_b
+                
+                if temp_a >= 1:
+                    temp_a = temp_a - 1
+                    pos_a = pos_a + dir_a
+                    ma.step(dir_a)
+
+                if temp_b >= 1:
+                    temp_b = temp_b - 1
+                    pos_b = pos_b + dir_b
+                    mb.step(dir_b)
+                time.sleep(0.005)
+                print(pos_a, pos_b, pos_c)
 
 
     
