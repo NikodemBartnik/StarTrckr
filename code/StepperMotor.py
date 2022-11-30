@@ -13,7 +13,7 @@ class StepperMotor:
         self.pin_enable.value(1)
         
     def step(self, direction):
-        self.pin_dir.value(1) if direction else self.pin_dir.value(0)
+        self.pin_dir.value(1) if direction == 1 else self.pin_dir.value(0)
         self.pin_step.value(1)
         self.pin_step.value(0)
         
