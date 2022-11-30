@@ -48,7 +48,7 @@ class Tracker:
                 step_b = db / da
                 step_c = dc / da
 
-                for x in range(da):
+                for x in range(int(da)):
                     self.pos_a = self.pos_a + dir_a
                     self.ma.step(dir_a)
                     temp_b = temp_b + step_b
@@ -70,7 +70,7 @@ class Tracker:
                 step_a = da / db
                 step_c = dc / db
 
-                for x in range(db):
+                for x in range(int(db)):
                     self.pos_b = self.pos_b + dir_b
                     self.mb.step(dir_b)
                     temp_a = temp_a + step_a
@@ -92,7 +92,7 @@ class Tracker:
                 step_a = da / dc
                 step_b = db / dc
 
-                for x in range(dc):
+                for x in range(int(dc)):
                     self.pos_c = self.pos_c + dir_c
                     self.mc.step(dir_c)
                     temp_a = temp_a + step_a
