@@ -42,9 +42,12 @@ def rotateAroundAxis(v, axis, angle):
                                 [axis[2]*axis[0]*(1-np.cos(t))-axis[1]*np.sin(t), axis[2]*axis[1]*(1-np.cos(t))+axis[0]*np.sin(t), np.cos(t)+pow(axis[2], 2)*(1-np.cos(t))]])
     return np.matmul(rotation_matrix, v)
 
-rot_axis = np.array([1, 1, 1])   
+rot_axis = np.array([1, 0, 0])   
 init_vector = np.array([1, 1, 0])   
 rot_axis = rot_axis/np.sqrt(pow(rot_axis[0], 2) + pow(rot_axis[1], 2) + pow(rot_axis[2], 2))
+
+print('rot_axis_vector: ', rot_axis)
+print('after rotation: ', rotateNormal(rot_axis, 0, 52, 0))
 
 print(rot_axis)
 print(rotateAroundAxis(init_vector, rot_axis, 180))
