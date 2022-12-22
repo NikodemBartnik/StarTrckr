@@ -24,6 +24,7 @@ class TrackerController:
         self.tracker_vec_x = tm.rotateAroundAxis(self.tracker_vec_x, self.polar_vec_x, angle)
         self.tracker_vec_z = tm.rotateAroundAxis(self.tracker_vec_z, self.polar_vec_x, angle)
 
+
     def getA(self):
         #return np.round(np.arccos(np.dot(self.tracker_vec_x, self.ref_vec_z)) * 180/np.pi, 2) - 90
         #return np.arccos(np.clip(np.dot(self.tracker_vec_x, self.ref_vec_z), -1.0, 1.0)) * 180/np.pi - 90
