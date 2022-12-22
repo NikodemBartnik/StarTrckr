@@ -18,11 +18,14 @@ class TrackerController:
 
     def rotate(self, x, y, z):
         self.tracker_vec_x = tm.rotateNormal(self.tracker_vec_x, x, y, z)
-        self.tracker_vec_z = tm.rotateNormal(self.tracker_vec_z, x, y, z)
+        #self.tracker_vec_z = tm.rotateNormal(self.tracker_vec_z, x, y, z)
+
+    def rotateZ(self, x):
+        self.tracker_vec_z = tm.rotateNormal(self.tracker_vec_z, x, 0, 0)
 
     def track(self, angle):
-        self.tracker_vec_x = tm.rotateAroundAxis(self.tracker_vec_x, self.polar_vec_x, angle)
-        self.tracker_vec_z = tm.rotateAroundAxis(self.tracker_vec_z, self.polar_vec_x, angle)
+        self.tracker_vec_x = tm.rotateAroundAxis(self.tracker_vec_x, self.polar_vec_x, -angle)
+        self.tracker_vec_z = tm.rotateAroundAxis(self.tracker_vec_z, self.polar_vec_x, -angle)
 
 
     def getA(self):

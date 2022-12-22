@@ -9,7 +9,7 @@ pygame.init()
 screen = pygame.display.set_mode([800, 400])
 
 SERIALPORT ='/dev/cu.usbmodem14101'
-#tracker = serial.Serial(SERIALPORT, 115200, timeout=0.01)
+tracker = serial.Serial(SERIALPORT, 115200, timeout=0.01)
 
 mousePressed = False
 tc = TrackerController.TrackerController()
@@ -75,23 +75,23 @@ while 1:
     drawAll()
     a = joystick.getValue()
     if a[0] > 50 and a[0] < 130 and a[1] > 0.5:
-        tc.rotate(0, -0.5, 0)
+        tc.rotate(0, -0.3, 0)
     if a[0] > 230 and a[0] < 310 and a[1] > 0.5:
-        tc.rotate(0, 0.5, 0)
+        tc.rotate(0, 0.3, 0)
 
     if a[0] > 140 and a[0] < 210 and a[1] > 0.5:
-        tc.rotate(0, 0, 0.5)
+        tc.rotate(0, 0, -0.3)
     if a[0] > 320 or a[0] < 40 and a[1] > 0.5:
-       tc.rotate(0, 0, -0.5)
+       tc.rotate(0, 0, 0.3)
 
     if button_turn_right.getValue():
-        tc.rotate(0.5, 0, 0)
+        tc.rotateZ(0.3)
     if button_turn_left.getValue():
-        tc.rotate(-0.5, 0, 0)
+        tc.rotateZ(-0.3)
 
     if button_set_axis.getValue():
         tc.polarAlign()
-        plotVisualizer = PlotVisualizer.PlotVisualizer(tc.getRefVecX(), tc.getRefVecZ(), tc.getPolarVecX(), tc.getPolarVecZ(), tc.getTrackerVecX(), tc.getTrackerVecZ())
+        #plotVisualizer = PlotVisualizer.PlotVisualizer(tc.getRefVecX(), tc.getRefVecZ(), tc.getPolarVecX(), tc.getPolarVecZ(), tc.getTrackerVecX(), tc.getTrackerVecZ())
         setAxis = True
 
     if button_track.getValue():
@@ -104,16 +104,16 @@ while 1:
             #angle_a = new_pos[0]
             #angle_b = new_pos[1]
             #angle_c = new_pos[2]
-            tc.track(-((time.time() - last_tracking_update)/86164 * 360))
+            tc.track(-((time.time() - last_tracking_update)/120 * 360))
         last_tracking_update = time.time()
 
     
-    if(setAxis):
-        plotVisualizer.updateVectors(tc.getRefVecX(), tc.getRefVecZ(), tc.getPolarVecX(), tc.getPolarVecZ(), tc.getTrackerVecX(), tc.getTrackerVecZ())
+    #if(setAxis):
+        #plotVisualizer.updateVectors(tc.getRefVecX(), tc.getRefVecZ(), tc.getPolarVecX(), tc.getPolarVecZ(), tc.getTrackerVecX(), tc.getTrackerVecZ())
         
 
-    line = 'A' + str(tc.getA()) + ' B' + str(tc.getB()) +' C' + str(tc.getC()) + '\n'
-    #tracker.write(line.encode('UTF-8'))
-    #print(line)
+    line = 'A' + str(tc.getA()) + ' B' + str(tc.getC()) +' C' + str(tc.getB()) + '\n'
+    tracker.write(line.encode('UTF-8'))
+    print(line)
     time.sleep(0.02)
     pygame.display.flip()

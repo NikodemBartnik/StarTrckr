@@ -15,7 +15,7 @@ class PlotVisualizer:
         self.tracker_vec_x = tracker_vec_x
         self.tracker_vec_z = tracker_vec_z
 
-        self.ani = animation.FuncAnimation(self.fig, self.updatePlot, frames=np.arange(0, 360, 1), interval=20)
+        self.ani = animation.FuncAnimation(self.fig, self.updatePlot, frames=np.arange(0, 360, 1), interval=1)
         plt.ion()
         plt.show()
 
