@@ -51,8 +51,8 @@ class PlotVisualizer:
         self.ax.quiver(0,0,0, self.polar_vec_x[0], self.polar_vec_x[1], self.polar_vec_x[2], color='#02A232')
         self.ax.quiver(0,0,0, self.polar_vec_z[0], self.polar_vec_z[1], self.polar_vec_z[2], color='#36E66B')
 
-        self.ax.quiver(0,0,0, self.tracker_vec_x[0], self.tracker_vec_x[1], self.tracker_vec_x[2], color='#1368B3')
-        self.ax.quiver(0,0,0, self.tracker_vec_z[0], self.tracker_vec_z[1], self.tracker_vec_z[2], color='#45A4F7')
+        #self.ax.quiver(0,0,0, self.tracker_vec_x[0], self.tracker_vec_x[1], self.tracker_vec_x[2], color='#1368B3')
+        #self.ax.quiver(0,0,0, self.tracker_vec_z[0], self.tracker_vec_z[1], self.tracker_vec_z[2], color='#45A4F7')
 
         vector_based_on_angles = tm.rotateNormal(self.angle_vetor, self.angle_vector_a, self.angle_vector_b, self.angle_vector_c)
         vector_based_on_angles2 = tm.rotateNormal(self.angle_vetor2, self.angle_vector_a, self.angle_vector_b, self.angle_vector_c)
