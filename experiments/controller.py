@@ -1,7 +1,5 @@
-import pygame, math, time, gui
+import pygame, time, gui
 import serial
-import numpy as np
-import TrackerMath as tm
 import TrackerController
 import PlotVisualizer
 
@@ -80,9 +78,9 @@ while 1:
         tc.rotate(0, 0.3, 0)
 
     if a[0] > 140 and a[0] < 210 and a[1] > 0.5:
-        tc.rotate(0, 0, -0.3)
+        tc.rotate(0, 0, -1)
     if a[0] > 320 or a[0] < 40 and a[1] > 0.5:
-       tc.rotate(0, 0, 0.3)
+       tc.rotate(0, 0, 1)
 
     if button_turn_right.getValue():
         tc.rotateZ(0.3)
@@ -91,25 +89,19 @@ while 1:
 
     if button_set_axis.getValue():
         tc.polarAlign()
-        #plotVisualizer = PlotVisualizer.PlotVisualizer(tc.getRefVecX(), tc.getRefVecZ(), tc.getPolarVecX(), tc.getPolarVecZ(), tc.getTrackerVecX(), tc.getTrackerVecZ())
+        plotVisualizer = PlotVisualizer.PlotVisualizer(tc.getRefVecX(), tc.getRefVecZ(), tc.getPolarVecX(), tc.getPolarVecZ(), tc.getTrackerVecX(), tc.getTrackerVecZ())
         setAxis = True
 
     if button_track.getValue():
         if last_tracking_update == 0:
             pass
         else:
-            #new_pos = rotateAroundAxis(np.array([angle_a, angle_b, angle_c]), rot_axis, -((time.time() - last_tracking_update)/86164 * 360))
-            #new_pos = rotateAroundAxis(np.array([angle_a, angle_b, angle_c]), rot_axis, -((time.time() - last_tracking_update)/60 * 360))
-            
-            #angle_a = new_pos[0]
-            #angle_b = new_pos[1]
-            #angle_c = new_pos[2]
             tc.track(-((time.time() - last_tracking_update)/120 * 360))
         last_tracking_update = time.time()
 
     
-    #if(setAxis):
-        #plotVisualizer.updateVectors(tc.getRefVecX(), tc.getRefVecZ(), tc.getPolarVecX(), tc.getPolarVecZ(), tc.getTrackerVecX(), tc.getTrackerVecZ())
+    if(setAxis):
+        plotVisualizer.updateVectors(tc.getRefVecX(), tc.getRefVecZ(), tc.getPolarVecX(), tc.getPolarVecZ(), tc.getTrackerVecX(), tc.getTrackerVecZ())
         
 
     line = 'A' + str(tc.getA()) + ' B' + str(tc.getC()) +' C' + str(tc.getB()) + '\n'

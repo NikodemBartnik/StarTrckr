@@ -1,7 +1,5 @@
 import TrackerMath as tm
 import numpy as np
-import math
-
 
 class TrackerController:
     def __init__(self):
@@ -18,7 +16,7 @@ class TrackerController:
 
     def rotate(self, x, y, z):
         self.tracker_vec_x = tm.rotateNormal(self.tracker_vec_x, x, y, z)
-        #self.tracker_vec_z = tm.rotateNormal(self.tracker_vec_z, x, y, z)
+        self.tracker_vec_z = tm.rotateNormal(self.tracker_vec_z, x, y, z)
 
     def rotateZ(self, x):
         self.tracker_vec_z = tm.rotateNormal(self.tracker_vec_z, x, 0, 0)
@@ -29,18 +27,12 @@ class TrackerController:
 
 
     def getA(self):
-        #return np.round(np.arccos(np.dot(self.tracker_vec_x, self.ref_vec_z)) * 180/np.pi, 2) - 90
-        #return np.arccos(np.clip(np.dot(self.tracker_vec_x, self.ref_vec_z), -1.0, 1.0)) * 180/np.pi - 90
         return np.arctan2(self.tracker_vec_x[1], self.tracker_vec_x[0]) * 180/np.pi
 
     def getB(self):
-        #return np.round(np.arccos(np.dot(self.tracker_vec_x, self.ref_vec_y)) * 180/np.pi, 2) - 90
-        #return np.arccos(np.clip(np.dot(self.tracker_vec_x, self.ref_vec_y), -1.0, 1.0)) * 180/np.pi - 90
         return np.arctan2(self.tracker_vec_z[1], self.tracker_vec_z[2]) * 180/np.pi
 
     def getC(self):
-        #return np.round(np.arccos(np.dot(self.tracker_vec_z, self.ref_vec_x)) * 180/np.pi, 2) - 90
-        #return np.arccos(np.clip(np.dot(self.tracker_vec_z, self.ref_vec_x), -1.0, 1.0)) * 180/np.pi - 90
         return np.arctan2(self.tracker_vec_x[0], self.tracker_vec_x[2]) * 180/np.pi - 90
 
     def getRefVecX(self):

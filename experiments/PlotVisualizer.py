@@ -15,7 +15,7 @@ class PlotVisualizer:
         self.tracker_vec_x = tracker_vec_x
         self.tracker_vec_z = tracker_vec_z
 
-        self.ani = animation.FuncAnimation(self.fig, self.updatePlot, frames=np.arange(0, 360, 1), interval=1)
+        self.ani = animation.FuncAnimation(self.fig, self.updatePlot, frames=np.arange(0, 360, 1), interval=50)
         plt.ion()
         plt.show()
 
@@ -29,7 +29,6 @@ class PlotVisualizer:
 
 
     def updatePlot(self, a):
-        print('update called')
         self.ax.set_xlabel(r'$x$', fontsize='large')
         self.ax.set_ylabel(r'$y$', fontsize='large')
         self.ax.set_zlabel(r'$z$', fontsize='large')
