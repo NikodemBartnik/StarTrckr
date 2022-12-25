@@ -7,7 +7,7 @@ pygame.init()
 screen = pygame.display.set_mode([800, 400])
 
 SERIALPORT ='/dev/cu.usbmodem14101'
-tracker = serial.Serial(SERIALPORT, 115200, timeout=0.01)
+#tracker = serial.Serial(SERIALPORT, 115200, timeout=0.01)
 
 mousePressed = False
 tc = TrackerController.TrackerController()
@@ -73,19 +73,19 @@ while 1:
     drawAll()
     a = joystick.getValue()
     if a[0] > 50 and a[0] < 130 and a[1] > 0.5:
-        tc.rotate(0, -0.3, 0)
+        tc.rotate(0, -2, 0)
     if a[0] > 230 and a[0] < 310 and a[1] > 0.5:
-        tc.rotate(0, 0.3, 0)
+        tc.rotate(0, 2, 0)
 
     if a[0] > 140 and a[0] < 210 and a[1] > 0.5:
-        tc.rotate(0, 0, -1)
+        tc.rotate(0, 0, -2)
     if a[0] > 320 or a[0] < 40 and a[1] > 0.5:
-       tc.rotate(0, 0, 1)
+       tc.rotate(0, 0, 2)
 
     if button_turn_right.getValue():
-        tc.rotateZ(0.3)
+        tc.rotateZ(2)
     if button_turn_left.getValue():
-        tc.rotateZ(-0.3)
+        tc.rotateZ(-2)
 
     if button_set_axis.getValue():
         tc.polarAlign()
@@ -96,16 +96,16 @@ while 1:
         if last_tracking_update == 0:
             pass
         else:
-            tc.track(-((time.time() - last_tracking_update)/120 * 360))
+            tc.track(((time.time() - last_tracking_update)/120 * 360))
         last_tracking_update = time.time()
 
     
     if(setAxis):
-        plotVisualizer.updateVectors(tc.getRefVecX(), tc.getRefVecZ(), tc.getPolarVecX(), tc.getPolarVecZ(), tc.getTrackerVecX(), tc.getTrackerVecZ())
+        plotVisualizer.updateVectors(tc.getRefVecX(), tc.getRefVecZ(), tc.getPolarVecX(), tc.getPolarVecZ(), tc.getTrackerVecX(), tc.getTrackerVecZ(), tc.getC(), tc.getB(), tc.getA())
         
 
-    line = 'A' + str(tc.getA()) + ' B' + str(tc.getC()) +' C' + str(tc.getB()) + '\n'
-    tracker.write(line.encode('UTF-8'))
+    line = 'A' + str(tc.getA()) + ' B' + str(tc.getB()) +' C' + str(tc.getC()) + '\n'
+    #tracker.write(line.encode('UTF-8'))
     print(line)
     time.sleep(0.02)
     pygame.display.flip()
