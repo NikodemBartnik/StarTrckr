@@ -64,3 +64,21 @@ class TrackerController:
 
     def getTrackerVecZ(self):
         return self.tracker_vec_z
+
+    def getADms(self):
+        d, m, s = self.decimalToDms(self.getA())
+        return f"{d}° {m}' {s}\""
+
+    def getBDms(self):
+        d, m, s = self.decimalToDms(self.getB())
+        return f"{d}° {m}' {s}\""
+
+    def getCDms(self):
+        d, m, s = self.decimalToDms(self.getC())
+        return f"{d}° {m}' {s}\""
+
+    def decimalToDms(self, decimal):
+        degrees = int(decimal)
+        minutes = int((decimal - degrees) * 60)
+        seconds = round((((decimal - degrees) * 60) - minutes) * 60, 2)
+        return (degrees, minutes, seconds)

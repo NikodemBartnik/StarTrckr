@@ -2,13 +2,15 @@ import pygame, math
 
 
 class Slider:
-    def __init__(self, pos, length, default=0) -> None:
+    def __init__(self, pos, length, default=0, min=0, max=1) -> None:
         self.pos = pos
         self.length = length
+        self.min = min
+        self.max = max
         self.height = 15
         self.colorBackground = (80,80,80)
         self.colorDot = (230,230,230)
-        self.dotPos = (self.pos[0] + self.length * default, self.pos[1]+7)
+        self.dotPos = (self.pos[0] + self.length * (default - min) / (max - min), self.pos[1]+7)
         self.value_display = Title((self.pos[0]+self.length+20, self.pos[1]-5), str(self.getValue()))
 
 
@@ -16,7 +18,7 @@ class Slider:
         if(clicked and self.pos[0] < click_pos[0] and (self.pos[0] + self.length) > click_pos[0] and
         self.pos[1] < click_pos[1]  and (self.pos[1] + self.height*2.5) > click_pos[1]):
             self.dotPos = (click_pos[0], self.dotPos[1])
-            self.value_display.change(str(self.getValue()))
+            self.value_display.change(str(round(self.getValue(),2)))
             return True
         else:
             return False
@@ -27,10 +29,10 @@ class Slider:
         self.value_display.draw(screen)
     
     def getValue(self):
-        return (self.dotPos[0] - self.pos[0])/self.length
+        return ((self.dotPos[0] - self.pos[0])/self.length * (self.max - self.min)) - abs(self.min)
 
     def setValue(self, val):
-        self.dotPos = (self.pos[0] + (self.length * val), self.pos[1])
+        self.dotPos = (self.pos[0] + (self.length * (val - self.min) / (self.max - self.min)), self.dotPos[1])
 
 
 class Title:
