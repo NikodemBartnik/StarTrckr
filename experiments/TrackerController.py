@@ -82,3 +82,4 @@ class TrackerController:
         minutes = int((decimal - degrees) * 60)
         seconds = round((((decimal - degrees) * 60) - minutes) * 60, 2)
         return (degrees, minutes, seconds)
+ 

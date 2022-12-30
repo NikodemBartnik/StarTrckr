@@ -95,3 +95,4 @@ dmypy.json
 # Pyre type checker
 .pyre/
 *.pyc
+*.pyc

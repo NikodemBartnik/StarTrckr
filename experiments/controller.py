@@ -116,12 +116,14 @@ while 1:
     #if(setAxis):
         #plotVisualizer.updateVectors(tc.getRefVecX(), tc.getRefVecZ(), tc.getPolarVecX(), tc.getPolarVecZ(), tc.getTrackerVecX(), tc.getTrackerVecZ(), tc.getC(), tc.getB(), tc.getA())
         
-
-    title_a_pos.change('A: ' + tc.getADms())
-    title_b_pos.change('B: ' + tc.getBDms())
-    title_c_pos.change('C: ' + tc.getCDms())
+    try:
+        title_a_pos.change('A: ' + tc.getADms())
+        title_b_pos.change('B: ' + tc.getBDms())
+        title_c_pos.change('C: ' + tc.getCDms())
+    except:
+        print('Nan exception')
     line = 'A' + str(tc.getA()) + ' B' + str(tc.getB()) +' C' + str(tc.getC()) + '\n'
     tracker.write(line.encode('UTF-8'))
-    print(line)
+    #print(line)
     time.sleep(0.02)
     pygame.display.flip()
