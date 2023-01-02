@@ -84,9 +84,9 @@ while 1:
     a = joystick.getValue()
     movementPrecision = slider_movement_precision.getValue()
     if (a[0] > 50 and a[0] < 130 and a[1] > 0.5) or keyPressed[pygame.K_UP]:
-        tc.rotate(0, -movementPrecision, 0)
+        tc.rotateAltitude(-movementPrecision)
     if (a[0] > 230 and a[0] < 310 and a[1] > 0.5) or keyPressed[pygame.K_DOWN]:
-        tc.rotate(0, movementPrecision, 0)
+        tc.rotateAltitude(movementPrecision)
 
     if (a[0] > 140 and a[0] < 210 and a[1] > 0.5) or keyPressed[pygame.K_RIGHT]:
         tc.rotate(0, 0, -movementPrecision)

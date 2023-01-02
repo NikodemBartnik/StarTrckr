@@ -25,6 +25,9 @@ class TrackerController:
         self.tracker_vec_y = tm.rotateNormal(self.tracker_vec_y, x, y, z)
         #self.tracker_vec_z = tm.rotateNormal(self.tracker_vec_z, x, y, z)
 
+    def rotateAltitude (self, a):
+        self.tracker_vec_x = tm.rotateAroundAxis(self.tracker_vec_x, self.tracker_vec_y, a)
+
     def rotateZ(self, x):
         self.tracker_vec_y = tm.rotateAroundAxis(self.tracker_vec_y, self.tracker_vec_x, x)
         self.tracker_vec_z = tm.rotateAroundAxis(self.tracker_vec_z, self.tracker_vec_x, x)

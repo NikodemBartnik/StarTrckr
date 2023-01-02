@@ -95,4 +95,5 @@ dmypy.json
 # Pyre type checker
 .pyre/
 *.pyc
-*.pyc
+
+pcb/startrckr_pcb-backups/
