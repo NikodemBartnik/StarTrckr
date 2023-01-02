@@ -84,19 +84,19 @@ while 1:
     a = joystick.getValue()
     movementPrecision = slider_movement_precision.getValue()
     if (a[0] > 50 and a[0] < 130 and a[1] > 0.5) or keyPressed[pygame.K_UP]:
-        tc.rotateAltitude(-movementPrecision)
-    if (a[0] > 230 and a[0] < 310 and a[1] > 0.5) or keyPressed[pygame.K_DOWN]:
         tc.rotateAltitude(movementPrecision)
+    if (a[0] > 230 and a[0] < 310 and a[1] > 0.5) or keyPressed[pygame.K_DOWN]:
+        tc.rotateAltitude(-movementPrecision)
 
     if (a[0] > 140 and a[0] < 210 and a[1] > 0.5) or keyPressed[pygame.K_RIGHT]:
-        tc.rotate(0, 0, -movementPrecision)
+        tc.rotate(0, 0, movementPrecision)
     if (a[0] > 320 or a[0] < 40 and a[1] > 0.5) or keyPressed[pygame.K_LEFT]:
-       tc.rotate(0, 0, movementPrecision)
+       tc.rotate(0, 0, -movementPrecision)
 
     if button_turn_right.getValue():
-        tc.rotateZ(movementPrecision)
-    if button_turn_left.getValue():
         tc.rotateZ(-movementPrecision)
+    if button_turn_left.getValue():
+        tc.rotateZ(movementPrecision)
 
     if button_set_axis.getValue():
         tc.polarAlign()
@@ -109,7 +109,7 @@ while 1:
             pass
         else:
             #86164
-            tc.track(-((time.time() - last_tracking_update)/86164 * 360))
+            tc.track(-((time.time() - last_tracking_update)/120 * 360))
         last_tracking_update = time.time()
 
     
