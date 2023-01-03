@@ -13,9 +13,9 @@ class Tracker:
         self.buzzer.freq(3000)
         self.buzzer.duty_u16(0)
 
-        self.ma = Motor(PIN_M1_ENABLE, PIN_M1_STEP, PIN_M1_DIR)
-        self.mb = Motor(PIN_M2_ENABLE, PIN_M2_STEP, PIN_M2_DIR)
-        self.mc = Motor(PIN_M3_ENABLE, PIN_M3_STEP, PIN_M3_DIR)
+        self.ma = Motor(PIN_M1_ENABLE, PIN_M1_STEP, PIN_M1_DIR, M1_REVERSE_DIR)
+        self.mb = Motor(PIN_M2_ENABLE, PIN_M2_STEP, PIN_M2_DIR, M2_REVERSE_DIR)
+        self.mc = Motor(PIN_M3_ENABLE, PIN_M3_STEP, PIN_M3_DIR, M3_REVERSE_DIR)
         self.ma.enable()
         self.mb.enable()
         self.mc.enable()

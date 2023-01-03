@@ -12,6 +12,10 @@ PIN_M3_ENABLE = 18
 PIN_M3_STEP = 17
 PIN_M3_DIR = 16
 
+M1_REVERSE_DIR = False
+M2_REVERSE_DIR = True
+M3_REVERSE_DIR = True
+
 #small base gear: 10 teeth
 #big base gear: 50 teeth
 #motor steps: 200 steps/rev
@@ -26,4 +30,4 @@ A_STEPS_PER_DEGREE = 44
 B_STEPS_PER_DEGREE = 39
 C_STEPS_PER_DEGREE = 39
 
-DELAY_BETWEEN_STEPS = 0.003
+DELAY_BETWEEN_STEPS = 0.002
