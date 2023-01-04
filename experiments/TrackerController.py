@@ -64,9 +64,11 @@ class TrackerController:
     def getC(self):
         #return np.sign(self.tracker_vec_z[1])*np.arccos(self.tracker_vec_z[2]) * 180/np.pi
         angle = np.degrees(np.arctan2(np.linalg.norm(np.cross(self.ref_vec_z, self.tracker_vec_z)), np.dot(self.ref_vec_z, self.tracker_vec_z)))
-        print('cross: ',np.cross(self.ref_vec_z, self.tracker_vec_z))
-        if(np.cross(self.ref_vec_z, self.tracker_vec_z)[0] < 0):
+        signed_angle = angle
+        if((np.cross(self.ref_vec_z, self.tracker_vec_z)[0] < 0 or self.tracker_vec_x[0] < 0) and not (np.cross(self.ref_vec_z, self.tracker_vec_z)[0] <= 0 and self.tracker_vec_x[0] <= 0)):
             angle = -angle
+        #print('x: ',self.tracker_vec_z[0], ' y: ', self.tracker_vec_z[1], ' a: ', angle, ' sa: ', signed_angle)
+        print('cross: ', np.cross(self.ref_vec_z, self.tracker_vec_z), ' vec_x: ', self.tracker_vec_x)
         return angle
 
 
