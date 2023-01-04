@@ -25,10 +25,6 @@ class TrackerController:
         self.polar_vec_y = self.tracker_vec_x
         self.polar_vec_z = self.tracker_vec_z
 
-    def rotate(self, x, y, z):
-        self.tracker_vec_x = tm.rotateVector(x,y,z,self.tracker_vec_x)
-        self.tracker_vec_y = tm.rotateVector(x,y,z,self.tracker_vec_y)
-        self.tracker_vec_z = tm.rotateVector(x,y,z,self.tracker_vec_z)
 
     def rotateAltitude(self, a):
         self.tracker_vec_x = tm.rotateAroundAxis(self.tracker_vec_x, self.tracker_vec_y, a)
@@ -62,13 +58,9 @@ class TrackerController:
 
 
     def getC(self):
-        #return np.sign(self.tracker_vec_z[1])*np.arccos(self.tracker_vec_z[2]) * 180/np.pi
         angle = np.degrees(np.arctan2(np.linalg.norm(np.cross(self.ref_vec_z, self.tracker_vec_z)), np.dot(self.ref_vec_z, self.tracker_vec_z)))
-        signed_angle = angle
         if((np.cross(self.ref_vec_z, self.tracker_vec_z)[0] < 0 or self.tracker_vec_x[0] < 0) and not (np.cross(self.ref_vec_z, self.tracker_vec_z)[0] <= 0 and self.tracker_vec_x[0] <= 0)):
             angle = -angle
-        #print('x: ',self.tracker_vec_z[0], ' y: ', self.tracker_vec_z[1], ' a: ', angle, ' sa: ', signed_angle)
-        print('cross: ', np.cross(self.ref_vec_z, self.tracker_vec_z), ' vec_x: ', self.tracker_vec_x)
         return angle
 
 
