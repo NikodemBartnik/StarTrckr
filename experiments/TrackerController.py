@@ -38,6 +38,10 @@ class TrackerController:
         self.tracker_vec_y = tm.rotateAroundAxis(self.tracker_vec_y, self.origin_vec_z, a)
         self.tracker_vec_z = tm.rotateAroundAxis(self.tracker_vec_z, self.origin_vec_z, a)
 
+        self.ref_vec_x = tm.rotateAroundAxis(self.ref_vec_x, self.origin_vec_z, a)
+        self.ref_vec_y = tm.rotateAroundAxis(self.ref_vec_y, self.origin_vec_z, a)
+        self.ref_vec_z = tm.rotateAroundAxis(self.ref_vec_z, self.origin_vec_z, a)
+
     def rotateField(self, x):
         self.tracker_vec_y = tm.rotateAroundAxis(self.tracker_vec_y, self.tracker_vec_x, x)
         self.tracker_vec_z = tm.rotateAroundAxis(self.tracker_vec_z, self.tracker_vec_x, x)
@@ -51,16 +55,20 @@ class TrackerController:
 
     def getA(self):
         return np.sign(self.tracker_vec_x[1])*np.arccos(self.tracker_vec_x[0]/(np.sqrt(pow(self.tracker_vec_x[0], 2) + pow(self.tracker_vec_x[1], 2)))) * 180/np.pi
-        return np.rad2deg(np.arccos(-self.tracker_vec_z[1]/np.sqrt(1-pow(self.tracker_vec_z[2],2))))
+
 
     def getB(self):
         return np.arccos(self.tracker_vec_x[2]) * 180/np.pi - 90
-        return np.rad2deg(np.arccos(self.tracker_vec_z[2]))
 
 
     def getC(self):
-        return np.sign(self.tracker_vec_z[1])*np.arccos(self.tracker_vec_z[2]) * 180/np.pi
-        return np.rad2deg(np.arccos(self.tracker_vec_y[2]/np.sqrt(1-pow(self.tracker_vec_z[2],2))))
+        #return np.sign(self.tracker_vec_z[1])*np.arccos(self.tracker_vec_z[2]) * 180/np.pi
+        angle = np.degrees(np.arctan2(np.linalg.norm(np.cross(self.ref_vec_z, self.tracker_vec_z)), np.dot(self.ref_vec_z, self.tracker_vec_z)))
+        print('cross: ',np.cross(self.ref_vec_z, self.tracker_vec_z))
+        if(np.cross(self.ref_vec_z, self.tracker_vec_z)[0] < 0):
+            angle = -angle
+        return angle
+
 
     def getRefVecX(self):
         return self.origin_vec_x
