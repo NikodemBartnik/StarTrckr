@@ -1,4 +1,4 @@
-###StarTracker - 3 axis astrophotography tracking solution
+## StarTracker - 3 axis astrophotography tracking solution
 
 
 ![startracker image](docs/startrckr_main.jpg)
@@ -19,7 +19,7 @@ Designed by [Nikodem Bartnik](https://www.youtube.com/nikodembartnik).
 ##Mechanics
 Different design approaches have been considered and in the end multiple designs were created. Some of those are presented in the image below.
 ![StarTrckr designs](docs/design_wireframe_all.png)
-Most parts have been 3D printed and only a few additional parts like bearings, screws and motors are neccesary from the mechanical point of view. As of writing this readme there are three versions included in CAD folder (v2, v3 nad v4). At this point v3 is prefered version and the one that is currently tested. Following list of printed parts reffers to v3.
+Most parts have been 3D printed and only a few additional parts like bearings, screws and motors are neccesary from the mechanical point of view. As of writing this readme there are three versions included in cad folder (v2, v3 nad v4). At this point v3 is prefered version and the one that is currently tested. Following list of printed parts reffers to v3.
 | Name                | Amount |
 |----------------------|-------|
 | arm1.3mf             | 1     |
@@ -56,6 +56,27 @@ List of additional parts needed for the mechanical assembly:
 ***
 
 ## Electronics
+In the pcb folder all files regarding electronics for the project can be found. Everything was designed with KiCad, there is the schematic and PCB layout together with zip archives with gerber files for production and schematic in png format. Here is a table with all components required to assemble the PCB.
+| Name                | Amount | Description 
+|----------------------|-------|-----------|
+| RP2040              | 1     | Raspberry Pi microcontroller |
+| A4988               | 3     | stepper driver, TMC2209 can be use as an upgrade to increase the accuracy |
+| W25Q32JVSS          | 1     | Flash memory |
+| USB socket          | 1     | type B |
+| LM1117              | 1     | 3.3V linear voltage regulator |
+| LED                 | 3     | size: 0805 preferably different color for each |
+| Buzzer              | 1     | THT, 12mm |
+| 12MHz crystal       | 1     | size: 5032 |
+| 27 $\Omega$ resistor| 2     | size: 0603 |
+| 100 $\Omega$ resistor|3    | size: 0603 |
+| 1k $\Omega$ resistor | 2    | size: 0603 |
+| 10k $\Omega$ resistor| 1    | size: 0603 |
+| 27pF capacitor      | 2    | size: 0603 |
+| 1uF capacitor       | 2    | size: 0603 |
+| 10uF capacitor      | 3    | size: 0603 |
+| 100nF capacitor     | 10   | size: 0603 |
+| 2 pin screw terminal| 1    | |
+| Some pin headers    |       | female and male, raster 2.54mm |
 
 
 ## Open Source
