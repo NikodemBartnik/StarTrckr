@@ -16,7 +16,7 @@ Since he was a young child, Nikodem Bartnik, the project's creator, has been fas
 
 Designed by [Nikodem Bartnik](https://www.youtube.com/nikodembartnik). 
 
-##Mechanics
+## Mechanics
 Different design approaches have been considered and in the end multiple designs were created. Some of those are presented in the image below.
 ![StarTrckr designs](docs/design_wireframe_all.png)
 Most parts have been 3D printed and only a few additional parts like bearings, screws and motors are neccesary from the mechanical point of view. As of writing this readme there are three versions included in cad folder (v2, v3 nad v4). At this point v3 is prefered version and the one that is currently tested. Following list of printed parts reffers to v3.
@@ -53,7 +53,7 @@ List of additional parts needed for the mechanical assembly:
 | M5 nuts                 | a lot | |
 | M3 screws               | a lot | lengths and amounts depend a lot on the version you are building |
 | M3 nuts                 | a lot | |
-***
+
 
 ## Electronics
 In the pcb folder all files regarding electronics for the project can be found. Everything was designed with KiCad, there is the schematic and PCB layout together with zip archives with gerber files for production and schematic in png format. Here is a table with all components required to assemble the PCB.
@@ -83,13 +83,16 @@ In the pcb folder all files regarding electronics for the project can be found. 
 The StarTracker project is open-source, and the author welcomes feedback and contributions from the community. They believe that by sharing the project, they can help others to achieve the same level of success in capturing images of the night sky. If you are interested in building your own StarTrckr, the project's Github repository includes detailed instructions and all the necessary files to get started. Project was created as a bachelor thesis project at Silesian University of Technology and the created thesis can also be found in the repository as a PDF where one can read in depth about the research, problems and detailed explantion about the design process and decisions. 
 
 
+## Software and firmware
+Both were developed with Python programming language. As for now designed just as MVP to test basic functionality of the tractor will hopefully be developed more in the future.
 
+## Testing
+Example image untracked, f/5.6, ISO200, 600s, 55mm, Canon 600D after editing:
+![StarTrckr test tracking disabled](docs/edit5.jpg)
 
+Example image with tracking enabled, same settings, camera and lens:
 
-## Parts
-
-
-
+![StarTrckr test tracking disabled](docs/edit4.jpg)
 
 
 
@@ -101,5 +104,7 @@ The StarTracker project is open-source, and the author welcomes feedback and con
 <img src="docs/logo/logo.png" style="width:300px">
 <br><br>
 
+## About the author
+Since I was a young child, I have been fascinated about observing the night sky and space in general. I am into developing various open source projects and documenting the journeys of creating them on my YouTube channel. Additionaly I am a part of Silesian Aerospace Technologies science club where together with friends we develop high altitude balloons, rockets and cubesat subsystems.
 
-We hope you enjoy using the StarTracker and are able to capture stunning images of the night sky with it. The StarTracker project is an ongoing effort, and the author is always looking for ways to improve it. Feel free to contact the author or contribute to the project if you have any ideas or suggestions. Together, we can make astrophotography more accessible and enjoyable for everyone.
+I hope you enjoy using the StarTracker and are able to capture stunning images of the night sky with it. The StarTracker project is an ongoing effort, and I am always looking for ways to improve it. Feel free to contact me or contribute to the project if you have any ideas or suggestions. Together, we can make astrophotography more accessible and enjoyable for everyone!
