@@ -1,0 +1,7 @@
+IMG_8831.JPG - tracked, f/5.6, ISO800, 240s, 55mm
+IMG_8833.JPG - untracked, f/5.6, ISO800, 240s, 55mm
+IMG_8858.JPG - tracked, f/5.6, ISO200, 600s, 55mm
+IMG_8859.JPG - untracked, f/5.6, ISO200, 600s, 55mm
+stacking_test.jpg - 22 90s exposures stacked together
+
+_edit - versions edited with Lightroom
