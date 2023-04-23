@@ -109,7 +109,7 @@ while 1:
             pass
         else:
             #86164
-            tc.track(-((time.time() - last_tracking_update)/86164 * 360))
+            tc.track(((time.time() - last_tracking_update)/86164 * 360))
         last_tracking_update = time.time()
 
     
