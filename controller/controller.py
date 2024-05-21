@@ -101,9 +101,6 @@ while 1:
     if button_set_axis.getValue():
         tc.polarAlign()
         #plotVisualizer = PlotVisualizer.PlotVisualizer(tc.getRefVecX(), tc.getRefVecZ(), tc.getPolarVecX(), tc.getPolarVecZ(), tc.getTrackerVecX(), tc.getTrackerVecZ())
-        polaris_ra = 2.530301028  # RA of Polaris in hours
-        polaris_dec = 89.264138    # DEC of Polaris in degrees
-        tc.setReferencePosition(polaris_ra, polaris_dec)
         setAxis = True
         title_angle.change('Axis ready!')
 
@@ -119,11 +116,12 @@ while 1:
     #if(setAxis):
         #plotVisualizer.updateVectors(tc.getRefVecX(), tc.getRefVecZ(), tc.getPolarVecX(), tc.getPolarVecZ(), tc.getTrackerVecX(), tc.getTrackerVecZ(), tc.getC(), tc.getB(), tc.getA())
         
-    print("RA: " + str(tc.getRA()) + " DEC: " + str(tc.getDEC()) + " C: " + str(tc.getC()))
+    print(tc.getRaDec(-tc.getB(), tc.getA(), 50.4672, 18.7276)) 
+    # print("RA: " + str(tc.getRA()) + " DEC: " + str(tc.getDEC()) + " C: " + str(tc.getC()))
     try:
-        title_a_pos.change('RA: ' + tc.getRA())
-        title_b_pos.change('DEC: ' + tc.getDEC())
-        title_c_pos.change('C: ' + tc.getC())
+        title_a_pos.change('ALT: ' + tc.getBDms())
+        title_b_pos.change('AZ: ' + tc.getADms())
+        title_c_pos.change('C: ' + tc.getCDms())
     except:
         print('Nan exception')
     line = 'A' + str(tc.getA()) + ' B' + str(tc.getB()) +' C' + str(tc.getC()) + '\n'
