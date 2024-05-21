@@ -45,8 +45,21 @@ class TrackerController:
         self.tracker_vec_y = tm.rotateAroundAxis(self.tracker_vec_y, self.polar_vec_x, angle)
         self.tracker_vec_z = tm.rotateAroundAxis(self.tracker_vec_z, self.polar_vec_x, angle)
 
-    def calculateRA(self):
+    def getA(self):
+        return np.sign(self.tracker_vec_x[1])*np.arccos(self.tracker_vec_x[0]/(np.sqrt(pow(self.tracker_vec_x[0], 2) + pow(self.tracker_vec_x[1], 2)))) * 180/np.pi
 
+
+    def getB(self):
+        return np.arccos(self.tracker_vec_x[2]) * 180/np.pi - 90
+
+
+    def getC(self):
+        angle = np.degrees(np.arctan2(np.linalg.norm(np.cross(self.ref_vec_z, self.tracker_vec_z)), np.dot(self.ref_vec_z, self.tracker_vec_z)))
+        if((np.cross(self.ref_vec_z, self.tracker_vec_z)[0] < 0 or self.tracker_vec_x[0] < 0) and not (np.cross(self.ref_vec_z, self.tracker_vec_z)[0] <= 0 and self.tracker_vec_x[0] <= 0)):
+            angle = -angle
+        return angle
+
+    def calculateRA(self):
         ra = np.arctan2(self.ref_vec_y[1], self.ref_vec_x[0])
         ra = np.degrees(ra) / 15.0
         if ra < 0:
