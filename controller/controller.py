@@ -101,6 +101,9 @@ while 1:
     if button_set_axis.getValue():
         tc.polarAlign()
         #plotVisualizer = PlotVisualizer.PlotVisualizer(tc.getRefVecX(), tc.getRefVecZ(), tc.getPolarVecX(), tc.getPolarVecZ(), tc.getTrackerVecX(), tc.getTrackerVecZ())
+        polaris_ra = 2.530301028  # RA of Polaris in hours
+        polaris_dec = 89.264138    # DEC of Polaris in degrees
+        tc.setReferencePosition(polaris_ra, polaris_dec)
         setAxis = True
         title_angle.change('Axis ready!')
 

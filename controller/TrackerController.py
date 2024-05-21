@@ -48,6 +48,20 @@ class TrackerController:
         self.tracker_vec_y = tm.rotateAroundAxis(self.tracker_vec_y, self.polar_vec_x, angle)
         self.tracker_vec_z = tm.rotateAroundAxis(self.tracker_vec_z, self.polar_vec_x, angle)
 
+    def setReferencePosition(self, known_ra, known_dec):
+        known_ra_rad = np.radians(known_ra * 15) 
+        known_dec_rad = np.radians(known_dec)
+
+        polaris_vec = np.array([
+            np.cos(known_dec_rad) * np.cos(known_ra_rad),
+            np.cos(known_dec_rad) * np.sin(known_ra_rad),
+            np.sin(known_dec_rad)
+        ])
+
+        self.ref_vec_x = np.array([1, 0, 0], dtype=np.longdouble)
+        self.ref_vec_y = np.array([0, 1, 0], dtype=np.longdouble)
+        self.ref_vec_z = polaris_vec
+
 
     def getA(self):
         return np.sign(self.tracker_vec_x[1])*np.arccos(self.tracker_vec_x[0]/(np.sqrt(pow(self.tracker_vec_x[0], 2) + pow(self.tracker_vec_x[1], 2)))) * 180/np.pi
@@ -121,7 +135,15 @@ class TrackerController:
         return dec - 90
 
     def getRA(self):
-        return self.calculateRA()
+        ra_decimal = self.calculateRA()
+        hours = int(ra_decimal / 15)
+        minutes = int((ra_decimal / 15 - hours) * 60)
+        seconds = round((((ra_decimal / 15 - hours) * 60) - minutes) * 60, 2)
+        return f"{hours}h {minutes}m {seconds}s"
 
     def getDEC(self):
-        return self.calculateDEC()
+        dec_decimal = self.calculateDEC()
+        degrees = int(dec_decimal)
+        minutes = int((dec_decimal - degrees) * 60)
+        seconds = round((((dec_decimal - degrees) * 60) - minutes) * 60, 2)
+        return f"{degrees}° {minutes}' {seconds}\""
