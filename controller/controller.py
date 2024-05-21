@@ -116,7 +116,7 @@ while 1:
     #if(setAxis):
         #plotVisualizer.updateVectors(tc.getRefVecX(), tc.getRefVecZ(), tc.getPolarVecX(), tc.getPolarVecZ(), tc.getTrackerVecX(), tc.getTrackerVecZ(), tc.getC(), tc.getB(), tc.getA())
         
-    print("RA: " + str(tc.getRA()) + " DEC: " + str(tc.calculateDEC()) + " C: " + str(tc.getC()))
+    print("RA: " + str(tc.getRA()) + " DEC: " + str(tc.getDEC()) + " C: " + str(tc.getC()))
     try:
         title_a_pos.change('RA: ' + tc.getRA())
         title_b_pos.change('DEC: ' + tc.getDEC())

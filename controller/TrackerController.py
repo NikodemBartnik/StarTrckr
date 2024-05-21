@@ -18,11 +18,13 @@ class TrackerController:
         self.tracker_vec_x = self.origin_vec_x
         self.tracker_vec_y = self.origin_vec_y
         self.tracker_vec_z = self.origin_vec_z
+        
 
     def polarAlign(self):
         self.polar_vec_x = self.tracker_vec_x
         self.polar_vec_y = self.tracker_vec_x
         self.polar_vec_z = self.tracker_vec_z
+
 
     def rotateAltitude(self, a):
         self.tracker_vec_x = tm.rotateAroundAxis(self.tracker_vec_x, self.tracker_vec_y, a)
@@ -40,10 +42,12 @@ class TrackerController:
         self.tracker_vec_y = tm.rotateAroundAxis(self.tracker_vec_y, self.tracker_vec_x, x)
         self.tracker_vec_z = tm.rotateAroundAxis(self.tracker_vec_z, self.tracker_vec_x, x)
 
+
     def track(self, angle):
         self.tracker_vec_x = tm.rotateAroundAxis(self.tracker_vec_x, self.polar_vec_x, angle)
         self.tracker_vec_y = tm.rotateAroundAxis(self.tracker_vec_y, self.polar_vec_x, angle)
         self.tracker_vec_z = tm.rotateAroundAxis(self.tracker_vec_z, self.polar_vec_x, angle)
+
 
     def getA(self):
         return np.sign(self.tracker_vec_x[1])*np.arccos(self.tracker_vec_x[0]/(np.sqrt(pow(self.tracker_vec_x[0], 2) + pow(self.tracker_vec_x[1], 2)))) * 180/np.pi
@@ -59,46 +63,65 @@ class TrackerController:
             angle = -angle
         return angle
 
-    def calculateRA(self):
-        ra = np.arctan2(self.ref_vec_y[1], self.ref_vec_x[0])
-        ra = np.degrees(ra) / 15.0
-        if ra < 0:
-            ra += 24
-        return ra
 
-    def calculateDEC(self):
-        dec = self.angle_between_vectors(self.ref_vec_z, self.tracker_vec_z)
-        return dec
+    def getRefVecX(self):
+        return self.origin_vec_x
 
-    def getRA(self):
-        ra_hours = self.calculateRA()
-        h, m, s = self.decimalToHours(ra_hours * 15)
-        return f"{h}h {m}m {s:.1f}s"
+    def getRefVecZ(self):
+        return self.origin_vec_z
 
-    def getDEC(self):
-        dec_deg = self.calculateDEC()
-        d, m, s = self.__decimalToDms(dec_deg)
+    def getPolarVecX(self):
+        return self.polar_vec_x
+
+    def getPolarVecZ(self):
+        return self.polar_vec_z
+
+    def getTrackerVecX(self):
+        return self.tracker_vec_x
+
+    def getTrackerVecZ(self):
+        return self.tracker_vec_z
+
+    def getADms(self):
+        d, m, s = self.__decimalToDms(self.getA())
         return f"{d}° {m}' {s}\""
 
-    def decimalToHours(self, decimal_degrees):
-        hours = decimal_degrees / 15.0
-        h = int(hours)
-        minutes = (hours - h) * 60
-        m = int(minutes)
-        seconds = (minutes - m) * 60
-        return h, m, seconds
+    def getBDms(self):
+        d, m, s = self.__decimalToDms(self.getB())
+        return f"{d}° {m}' {s}\""
+
+    def getCDms(self):
+        d, m, s = self.__decimalToDms(self.getC())
+        return f"{d}° {m}' {s}\""
 
     def __decimalToDms(self, decimal):
         degrees = int(decimal)
         minutes = int((decimal - degrees) * 60)
         seconds = round((((decimal - degrees) * 60) - minutes) * 60, 2)
-        return degrees, minutes, seconds
+        return (degrees, minutes, seconds)
+    
+    def calculateRA(self):
+        tracker_proj_xy = self.tracker_vec_x.copy()
+        tracker_proj_xy[2] = 0
+        cos_angle = np.dot(self.polar_vec_x, tracker_proj_xy) / (np.linalg.norm(self.polar_vec_x) * np.linalg.norm(tracker_proj_xy))
+        angle = np.arccos(cos_angle)
+        
+        if np.cross(self.polar_vec_x, tracker_proj_xy)[2] < 0:
+            angle = 2 * np.pi - angle
+        ra = np.degrees(angle)
+        ra = ra % 360
+        
+        return ra
 
-    def angle_between_vectors(vec1, vec2):
-        dot_product = np.dot(vec1, vec2)
-        magnitude_vec1 = np.linalg.norm(vec1)
-        magnitude_vec2 = np.linalg.norm(vec2)
-        cos_theta = dot_product / (magnitude_vec1 * magnitude_vec2)
-        angle_radians = np.arccos(np.clip(cos_theta, -1.0, 1.0))
-        angle_degrees = np.degrees(angle_radians)
-        return angle_degrees
+    def calculateDEC(self):
+        cos_dec = np.dot(self.tracker_vec_x, self.polar_vec_z) / (np.linalg.norm(self.tracker_vec_x) * np.linalg.norm(self.polar_vec_z))
+        dec = np.degrees(np.arccos(cos_dec))
+        if self.tracker_vec_x[2] < 0:
+            dec = -dec
+        return dec - 90
+
+    def getRA(self):
+        return self.calculateRA()
+
+    def getDEC(self):
+        return self.calculateDEC()
