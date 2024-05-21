@@ -1,5 +1,6 @@
 import TrackerMath as tm
 import numpy as np
+import datetime
 
 class TrackerController:
     def __init__(self):
@@ -114,36 +115,29 @@ class TrackerController:
         seconds = round((((decimal - degrees) * 60) - minutes) * 60, 2)
         return (degrees, minutes, seconds)
     
-    def calculateRA(self):
-        tracker_proj_xy = self.tracker_vec_x.copy()
-        tracker_proj_xy[2] = 0
-        cos_angle = np.dot(self.polar_vec_x, tracker_proj_xy) / (np.linalg.norm(self.polar_vec_x) * np.linalg.norm(tracker_proj_xy))
-        angle = np.arccos(cos_angle)
+    def altAzToRaDec(alt, az, current_time, latitude, longitude):
+        alt_rad = np.radians(alt)
+        az_rad = np.radians(az)
         
-        if np.cross(self.polar_vec_x, tracker_proj_xy)[2] < 0:
-            angle = 2 * np.pi - angle
-        ra = np.degrees(angle)
-        ra = ra % 360
+        lat_rad = np.radians(latitude)
+        lon_rad = np.radians(longitude)
         
-        return ra
+        J2000 = 2451545.0
+        current_JD = J2000 + (current_time - datetime.datetime(2000, 1, 1)).total_seconds() / 86400.0
+        
+        S = current_JD - J2000
+        T = S / 36525.0
+        T0 = 6.697374558 + (2400.051336 * T) + (0.000025862 * T ** 2)
+        T0 = T0 % 24
+        UT = current_time.hour + current_time.minute / 60.0 + current_time.second / 3600.0
+        LST = T0 + UT * 1.002737909
+        LST = LST % 24
+        HA = LST * 15 - np.degrees(az_rad)
 
-    def calculateDEC(self):
-        cos_dec = np.dot(self.tracker_vec_x, self.polar_vec_z) / (np.linalg.norm(self.tracker_vec_x) * np.linalg.norm(self.polar_vec_z))
-        dec = np.degrees(np.arccos(cos_dec))
-        if self.tracker_vec_x[2] < 0:
-            dec = -dec
-        return dec - 90
-
-    def getRA(self):
-        ra_decimal = self.calculateRA()
-        hours = int(ra_decimal / 15)
-        minutes = int((ra_decimal / 15 - hours) * 60)
-        seconds = round((((ra_decimal / 15 - hours) * 60) - minutes) * 60, 2)
-        return f"{hours}h {minutes}m {seconds}s"
-
-    def getDEC(self):
-        dec_decimal = self.calculateDEC()
-        degrees = int(dec_decimal)
-        minutes = int((dec_decimal - degrees) * 60)
-        seconds = round((((dec_decimal - degrees) * 60) - minutes) * 60, 2)
-        return f"{degrees}° {minutes}' {seconds}\""
+        sin_dec = np.sin(alt_rad) * np.sin(lat_rad) + np.cos(alt_rad) * np.cos(lat_rad) * np.cos(np.radians(HA))
+        dec = np.degrees(np.arcsin(sin_dec))
+        
+        cos_ra = (np.sin(alt_rad) - np.sin(lat_rad) * np.sin(np.radians(dec))) / (np.cos(lat_rad) * np.cos(np.radians(dec)))
+        ra = LST * 15 - np.degrees(np.arccos(cos_ra))
+        
+        return ra, dec
