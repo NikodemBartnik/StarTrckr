@@ -67,7 +67,7 @@ class TrackerController:
         return ra
 
     def calculateDEC(self):
-        dec = np.arcsin(self.ref_vec_z[2])
+        dec = np.arctan2(self.ref_vec_z[2], np.sqrt(self.ref_vec_z[0]**2 + self.ref_vec_z[1]**2))
         dec = np.degrees(dec)
         return dec
 
