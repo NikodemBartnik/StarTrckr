@@ -117,8 +117,8 @@ while 1:
         #plotVisualizer.updateVectors(tc.getRefVecX(), tc.getRefVecZ(), tc.getPolarVecX(), tc.getPolarVecZ(), tc.getTrackerVecX(), tc.getTrackerVecZ(), tc.getC(), tc.getB(), tc.getA())
         
     try:
-        title_a_pos.change('A: ' + tc.getADms())
-        title_b_pos.change('B: ' + tc.getBDms())
+        title_a_pos.change('RA: ' + tc.getRA())
+        title_b_pos.change('B: ' + tc.getDEC())
         title_c_pos.change('C: ' + tc.getCDms())
     except:
         print('Nan exception')

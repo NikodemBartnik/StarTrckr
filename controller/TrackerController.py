@@ -64,6 +64,7 @@ class TrackerController:
         return angle
 
 
+
     def getRefVecX(self):
         return self.origin_vec_x
 
@@ -85,6 +86,24 @@ class TrackerController:
     def getADms(self):
         d, m, s = self.__decimalToDms(self.getA())
         return f"{d}° {m}' {s}\""
+    
+    def getRA(self):
+        h, m, s = self.decimalToHours(self.getA())
+        #we are aligned with the north star, it's position is RA: 2h 31m 48.7s, dec: +89° 15′ 51″
+        # we need to add 2h 31m 48.7s to the current time
+        h += 2
+        m += 31
+        s += 48.7
+        #the same for the declination
+        #h += 89
+        #m += 15
+        #s += 51
+
+        return f"{h}h {m}m {s}s"
+    
+    def getDEC(self):
+        d, m, s = self.__decimalToDms(self.getB())
+        return f"{d}° {m}' {s}\""
 
     def getBDms(self):
         d, m, s = self.__decimalToDms(self.getB())
@@ -93,6 +112,14 @@ class TrackerController:
     def getCDms(self):
         d, m, s = self.__decimalToDms(self.getC())
         return f"{d}° {m}' {s}\""
+    
+    def decimalToHours(decimal_degrees):
+        hours = int(decimal_degrees / 15.0)
+        h = int(hours)
+        minutes = (hours - h) * 60
+        m = int(minutes)
+        seconds = (minutes - m) * 60
+        return h, m, seconds
 
     def __decimalToDms(self, decimal):
         degrees = int(decimal)
