@@ -6,7 +6,7 @@ import PlotVisualizer
 pygame.init()
 screen = pygame.display.set_mode([800, 600])
 
-SERIALPORT ='/dev/cu.usbmodem14101'
+SERIALPORT ='/dev/cu.usbmodem14201'
 tracker = serial.Serial(SERIALPORT, 115200, timeout=0.01)
 
 mousePressed = False
@@ -116,10 +116,11 @@ while 1:
     #if(setAxis):
         #plotVisualizer.updateVectors(tc.getRefVecX(), tc.getRefVecZ(), tc.getPolarVecX(), tc.getPolarVecZ(), tc.getTrackerVecX(), tc.getTrackerVecZ(), tc.getC(), tc.getB(), tc.getA())
         
+    print("RA: " + str(tc.getRA()) + " DEC: " + str(tc.calculateDEC()) + " C: " + str(tc.getC()))
     try:
         title_a_pos.change('RA: ' + tc.getRA())
-        title_b_pos.change('B: ' + tc.getDEC())
-        title_c_pos.change('C: ' + tc.getCDms())
+        title_b_pos.change('DEC: ' + tc.getDEC())
+        title_c_pos.change('C: ' + tc.getC())
     except:
         print('Nan exception')
     line = 'A' + str(tc.getA()) + ' B' + str(tc.getB()) +' C' + str(tc.getC()) + '\n'
