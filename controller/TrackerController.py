@@ -67,8 +67,7 @@ class TrackerController:
         return ra
 
     def calculateDEC(self):
-        dec = np.arctan2(self.ref_vec_z[2], np.sqrt(self.ref_vec_z[0]**2 + self.ref_vec_z[1]**2))
-        dec = np.degrees(dec)
+        dec = self.angle_between_vectors(self.ref_vec_z, self.tracker_vec_z)
         return dec
 
     def getRA(self):
@@ -95,3 +94,11 @@ class TrackerController:
         seconds = round((((decimal - degrees) * 60) - minutes) * 60, 2)
         return degrees, minutes, seconds
 
+    def angle_between_vectors(vec1, vec2):
+        dot_product = np.dot(vec1, vec2)
+        magnitude_vec1 = np.linalg.norm(vec1)
+        magnitude_vec2 = np.linalg.norm(vec2)
+        cos_theta = dot_product / (magnitude_vec1 * magnitude_vec2)
+        angle_radians = np.arccos(np.clip(cos_theta, -1.0, 1.0))
+        angle_degrees = np.degrees(angle_radians)
+        return angle_degrees
