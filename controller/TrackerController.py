@@ -116,14 +116,9 @@ class TrackerController:
     
     def altAzToRaDec(self, alt, az, latitude, longitude):
         location = EarthLocation(lat=latitude * u.deg, lon=longitude * u.deg)
-
         time = Time(datetime.datetime.now())
-        
         altaz = AltAz(alt=alt * u.deg, az=az * u.deg, location=location, obstime=time)
-        
         skycoord = SkyCoord(altaz)
-
         ra = skycoord.icrs.ra.degree
         dec = skycoord.icrs.dec.degree
-        
         return ra, dec

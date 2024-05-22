@@ -14,7 +14,9 @@ tc = TrackerController.TrackerController()
 plotVisualizer = None
 setAxis = False
 
-
+### CHANGE PARAMETERS HERE ###
+LATITUDE = 50.4672
+LONGITUDE = 18.7276
 
 def clickCheck(pos, clicked):
     joystick.checkIfPressed(pos, clicked)
@@ -40,6 +42,7 @@ def drawAll():
     title_a_pos.draw(screen)
     title_b_pos.draw(screen)
     title_c_pos.draw(screen)
+    title_ra_dec.draw(screen)
 
 
 def WaitForOK():
@@ -60,10 +63,10 @@ title_track = gui.Title((520, 280), 'Track')
 button_track = gui.Button((650, 290), 20, False, True)
 title_angle = gui.Title((580, 340), 'set axis')
 slider_movement_precision = gui.Slider((100, 380), 300, 0.5, 0, 1)
-title_a_pos = gui.Title((580, 420), '0')
-title_b_pos = gui.Title((580, 450), '0')
-title_c_pos = gui.Title((580, 480), '0')
-
+title_a_pos = gui.Title((480, 420), '0')
+title_b_pos = gui.Title((480, 450), '0')
+title_c_pos = gui.Title((480, 480), '0')
+title_ra_dec = gui.Title((480, 510), '0')
 
 last_tracking_update = 0
 
@@ -116,12 +119,11 @@ while 1:
     #if(setAxis):
         #plotVisualizer.updateVectors(tc.getRefVecX(), tc.getRefVecZ(), tc.getPolarVecX(), tc.getPolarVecZ(), tc.getTrackerVecX(), tc.getTrackerVecZ(), tc.getC(), tc.getB(), tc.getA())
         
-    print(tc.getRaDec(-tc.getB(), tc.getA(), 50.4672, 18.7276)) 
-    # print("RA: " + str(tc.getRA()) + " DEC: " + str(tc.getDEC()) + " C: " + str(tc.getC()))
     try:
         title_a_pos.change('ALT: ' + tc.getBDms())
         title_b_pos.change('AZ: ' + tc.getADms())
         title_c_pos.change('C: ' + tc.getCDms())
+        title_ra_dec.change(tc.getRaDec(-tc.getB(), tc.getA(), LATITUDE, LONGITUDE))
     except:
         print('Nan exception')
     line = 'A' + str(tc.getA()) + ' B' + str(tc.getB()) +' C' + str(tc.getC()) + '\n'
