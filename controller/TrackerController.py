@@ -1,5 +1,9 @@
 import TrackerMath as tm
 import numpy as np
+import datetime
+from astropy.coordinates import EarthLocation, AltAz, SkyCoord
+from astropy.time import Time
+import astropy.units as u
 
 class TrackerController:
     def __init__(self):
@@ -99,3 +103,22 @@ class TrackerController:
         minutes = int((decimal - degrees) * 60)
         seconds = round((((decimal - degrees) * 60) - minutes) * 60, 2)
         return (degrees, minutes, seconds)
+    
+    def getRaDec(self, alt, az, latitude, longitude):
+        ra, dec = self.altAzToRaDec(alt, az, latitude, longitude)
+        ra_h = int(ra / 15)
+        ra_m = int((ra / 15 - ra_h) * 60)
+        ra_s = round((((ra / 15 - ra_h) * 60) - ra_m) * 60, 2)
+        dec_d = int(dec)
+        dec_m = int((dec - dec_d) * 60)
+        dec_s = round((((dec - dec_d) * 60) - dec_m) * 60, 2)
+        return f"{ra_h}h {ra_m}m {ra_s}s, {dec_d}° {dec_m}' {dec_s}\""
+    
+    def altAzToRaDec(self, alt, az, latitude, longitude):
+        location = EarthLocation(lat=latitude * u.deg, lon=longitude * u.deg)
+        time = Time(datetime.datetime.now())
+        altaz = AltAz(alt=alt * u.deg, az=az * u.deg, location=location, obstime=time)
+        skycoord = SkyCoord(altaz)
+        ra = skycoord.icrs.ra.degree
+        dec = skycoord.icrs.dec.degree
+        return ra, dec
